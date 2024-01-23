@@ -13,6 +13,7 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.unit.dp
 
+//khi gọi thì sẽ mở dialog để người dùng thêm contact mới
 @Composable
 fun AddContactDialog(
     state: ContactState,
@@ -21,7 +22,7 @@ fun AddContactDialog(
 ) {
     AlertDialog(
         modifier = modifier,
-        onDismissRequest = {
+        onDismissRequest = { //khi người dùng đóng dialog
             onEvent(ContactEvent.HideDialog)
         },
         title = { Text(text = "Add contact") },
@@ -29,10 +30,10 @@ fun AddContactDialog(
             Column(
                 verticalArrangement = Arrangement.spacedBy(8.dp)
             ) {
-                TextField(
-                    value = state.firstName,
-                    onValueChange = {
-                        onEvent(ContactEvent.SetFirstName(it))
+                TextField( //dùng để cho người dùng nhập thông tin contact mới
+                    value = state.firstName, //xác định giá trị hiện tại của textfield là rỗng
+                    onValueChange = {//khi người dùng nhập giá trị mới vào
+                        onEvent(ContactEvent.SetFirstName(it)) //gọi hàm ContactEvent.SetFirstName(it) với it là giá trị mới
                     },
                     placeholder = {
                         Text(text = "First name")
@@ -64,7 +65,7 @@ fun AddContactDialog(
                 contentAlignment = Alignment.CenterEnd
             ) {
                 Button(onClick = {
-                    onEvent(ContactEvent.Savecontact)
+                    onEvent(ContactEvent.Savecontact)//khi bấm vào nút thì thực hiện sự kiện ContactEvent.Savecontact
                 }) {
                     Text(text = "Save")
                 }

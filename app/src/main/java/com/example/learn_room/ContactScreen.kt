@@ -9,7 +9,6 @@ import androidx.compose.foundation.layout.PaddingValues
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
-import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.rememberScrollState
@@ -34,7 +33,9 @@ fun ContactScreen(
     state: ContactState,
     onEvent: (ContactEvent) -> Unit
 ){
+    // Scaffold: Cấu trúc giao diện chính, bao gồm thanh tiêu đề, thanh công cụ, nút thêm liên lạc
     Scaffold(
+        //nút hành động thực hiện sự kiện add contact khi nhấn thì thực hiện mở Dialog
         floatingActionButton = {
             FloatingActionButton(onClick = {
                 onEvent(ContactEvent.ShowDialog)
@@ -46,8 +47,8 @@ fun ContactScreen(
             }
         },
     ) {_ ->
-        if(state.isAddingContact){
-            AddContactDialog(state = state, onEvent = onEvent)
+        if(state.isAddingContact){ //Nếu người dùng thực hiện thêm contact
+            AddContactDialog(state = state, onEvent = onEvent) //mở ra dialog hiện ra để người dùng thêm contact mới với tham số là state và onEvent
         }
         LazyColumn(
             contentPadding = PaddingValues(16.dp),
@@ -55,36 +56,36 @@ fun ContactScreen(
             verticalArrangement = Arrangement.spacedBy(16.dp)
         ){
             item{
-                Row(
+                Row(//sắp xếp item theo chiều ngang
                     modifier = Modifier
                         .fillMaxWidth()
-                        .horizontalScroll(rememberScrollState()),
+                        .horizontalScroll(rememberScrollState()), //cuộn theo chiều ngang để có thể hiện thị nhiều hơn
                     verticalAlignment = Alignment.CenterVertically
                 ){
-                    SortType.values().forEach {
+                    SortType.values().forEach {//duyệt qua các giá trị trong enum class "SortType"
                         Row(
                             modifier = Modifier.clickable {
-                                onEvent(ContactEvent.SortContacts(it))
+                                onEvent(ContactEvent.SortContacts(it))//gọi sự kiện ContactEvent.SortContacts(it) it là giá trị user chọn
                             },
                             verticalAlignment = Alignment.CenterVertically
                         ){
                             RadioButton(
-                                selected = state.sortType == it ,
+                                selected = state.sortType == it, //khi được chọn thì sắp xếp theo kiểu sắp xếp tượng ứng
                                 onClick = {
-                                    onEvent(ContactEvent.SortContacts(it))
+                                    onEvent(ContactEvent.SortContacts(it)) //gọi sự kiện ContactEvent.SortContacts(it) it là giá trị user chọn
                                 }
                             )
-                            Text(text = it.name)
+                            Text(text = it.name)//tên của kiểu sắp xếp đó
                         }
                     }
                 }
-
             }
+            //hiện 1 list các contact
             items(state.contacts){contact ->
-                Row(
+                Row( //hiện thị theo row và chiếm full chiều rộng của màn hình
                     modifier = Modifier.fillMaxWidth()
-                ) {
-                    Column(
+                ) {//mỗi item
+                    Column( //hiện thị tên, họ và số điện thoại theo chiều column và chiếm toàn bộ màn hình
                         modifier = Modifier.weight(1f)
                     ) {
                         Text(
@@ -97,7 +98,7 @@ fun ContactScreen(
                         )
                     }
                     IconButton(onClick = {
-                        onEvent(ContactEvent.DeleteContact(contact))
+                        onEvent(ContactEvent.DeleteContact(contact)) //khi bấm vào nút thì gọi sự kiện ContactEvent.DeleteContact(contact) contact ở đây chính là chính item đang được chọn
                     }) {
                         Icon(
                             imageVector = Icons.Default.Delete,

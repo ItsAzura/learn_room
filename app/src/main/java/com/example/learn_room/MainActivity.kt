@@ -16,18 +16,20 @@ import androidx.room.Room
 import com.example.learn_room.ui.theme.Learn_RoomTheme
 
 class MainActivity : ComponentActivity() {
+    //tạo db
     private val db by lazy {
-        Room.databaseBuilder(
-            applicationContext,
-            ContactDatabase::class.java,
-            "contacts.db"
-        ).build()
+        Room.databaseBuilder( //dùng room tạo db
+            applicationContext, //Nó được sử dụng để lấy truy cập đến Context của ứng dụng.
+            ContactDatabase::class.java, //Đại diện cho lớp RoomDatabase được định nghĩa trong ứng dụng.
+            "contacts.db" //Tên csdl
+        ).build() //tạo db
     }
+    //tạo đối tượng viewModel của lớp ContactViewModel
     private val viewModel by viewModels<ContactViewModel>(
-        factoryProducer = {
-            object :ViewModelProvider.Factory{
-                override fun <T : ViewModel> create(modelClass: Class<T>): T {
-                    return ContactViewModel(db.dao) as T
+        factoryProducer = { //tham số khuyến khích cho việc cung cấp một factory để tạo đối tượng ViewModel.
+            object :ViewModelProvider.Factory{ //một giao diện được sử dụng để tạo đối tượng ViewModel.
+                override fun <T : ViewModel> create(modelClass: Class<T>): T { //hương thức này được triển khai để tạo một đối tượng ViewModel dựa trên modelClass
+                    return ContactViewModel(db.dao) as T //trả về 1 đối tượng ContactViewModel với đối số là db.dao là kiểu T
                 }
             }
         }
@@ -41,8 +43,8 @@ class MainActivity : ComponentActivity() {
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    val state by viewModel.state.collectAsState()
-                    ContactScreen(state = state, onEvent = viewModel::onEvent)
+                    val state by viewModel.state.collectAsState()//lấy trạng thái của viewmodel thông qua flow
+                    ContactScreen(state = state, onEvent = viewModel::onEvent) //gọi hàm compose ContactScreen
                 }
             }
         }
