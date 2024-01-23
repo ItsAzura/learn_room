@@ -9,6 +9,7 @@ sealed interface ContactEvent {
     data class SetFirstName(val firstName: String): ContactEvent
     data class SetLastName(val lastName: String): ContactEvent
     data class SetPhoneNum(val phoneNum: String): ContactEvent
+    data class SetAge(val age: String): ContactEvent
 
     //định nghĩa sự kiện hiện và ẩn hộp thoại
     object ShowDialog: ContactEvent

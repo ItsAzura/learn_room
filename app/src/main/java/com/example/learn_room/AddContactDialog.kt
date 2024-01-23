@@ -49,6 +49,15 @@ fun AddContactDialog(
                     }
                 )
                 TextField(
+                    value = state.age,
+                    onValueChange = {
+                        onEvent(ContactEvent.SetAge(it))
+                    },
+                    placeholder = {
+                        Text(text = "Age")
+                    }
+                )
+                TextField(
                     value = state.phoneNum,
                     onValueChange = {
                         onEvent(ContactEvent.SetPhoneNum(it))

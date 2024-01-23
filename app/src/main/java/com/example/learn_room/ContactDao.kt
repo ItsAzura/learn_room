@@ -9,7 +9,6 @@ import kotlinx.coroutines.flow.Flow
 //class interface được Room sử dụng để tạo các phương thức để truy cập với csdl SQLite thông quan queries
 @Dao
 interface ContactDao {
-
     @Upsert() //thực hiện cả chức năng insert và update 1 entity trong csdl
     suspend fun upsertContact(contact: Contact)
 
@@ -26,4 +25,7 @@ interface ContactDao {
 
     @Query("Select * from Contact Order by phoneNum ASC")
     fun getContactsOrderedByPhoneNum(): Flow<List<Contact>>
+
+    @Query("Select * from Contact Order by age ASC")
+    fun getContactsOrderedByAge(): Flow<List<Contact>>
 }

@@ -8,6 +8,7 @@ data class ContactState (
     val firstName: String = "",
     val lastName: String = "",
     val phoneNum: String = "",
+    val age: String = "",
     //xác định xem app đang trong quá trình thêm 1 contact mới hay không
     val isAddingContact: Boolean = false,
     //xác định kiểu sắp xếp cho danh sách liên hệ

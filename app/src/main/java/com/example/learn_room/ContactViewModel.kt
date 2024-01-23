@@ -28,6 +28,7 @@ class ContactViewModel(
                 SortType.FIRST_NAME -> dao.getContactsOrderedByFirstName()
                 SortType.LAST_NAME -> dao.getContactsOrderedByLastName()
                 SortType.PHONE_NUMBER -> dao.getContactsOrderedByPhoneNum()
+                SortType.AGE -> dao.getContactsOrderedByAge()
             }
         }
         .stateIn( //chuyển thành StateFlow và lưu trữ trong "_contacts"
@@ -69,6 +70,11 @@ class ContactViewModel(
                     phoneNum = event.phoneNum
                 ) }
             }
+            is ContactEvent.SetAge -> {
+                _state.update { it.copy(
+                    age = event.age
+                ) }
+            }
             //Khi người dùng chọn một kiểu sắp xếp mới
             is ContactEvent.SortContacts -> {
                 _sortType.value = event.sortType //sự kiện này được gửi và giá trị _sortType được cập nhật dựa trên kiểu sắp xếp được chọn.
@@ -78,6 +84,7 @@ class ContactViewModel(
                 val fistName = state.value.firstName
                 val lastName = state.value.lastName
                 val phoneNum = state.value.phoneNum
+                val age = state.value.age
                 //kiểm tra xem các trường thông tin (firstName, lastName, phoneNum) có giá trị hay không
                 if(fistName.isBlank() || lastName.isBlank() || phoneNum.isBlank()){
                     return
@@ -87,6 +94,7 @@ class ContactViewModel(
                     firstName = fistName,
                     lastName = lastName,
                     phoneNum = phoneNum,
+                    age = age,
                 )
                 //hực hiện upsertContact thông qua "dao"
                 viewModelScope.launch {
@@ -97,7 +105,8 @@ class ContactViewModel(
                     isAddingContact = false,
                     firstName = "",
                     lastName = "",
-                    phoneNum = ""
+                    phoneNum = "",
+                    age = "",
                 ) }
             }
             //Khi người dùng muốn xóa một liên hệ

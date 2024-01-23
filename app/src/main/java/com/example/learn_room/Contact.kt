@@ -9,6 +9,7 @@ data class Contact( //Định nghĩa 1 entity "Contact" để lưu trữ dữ li
     val firstName: String,
     val lastName: String,
     val phoneNum: String,
+    val age: String,
     //Khoá chính
     @PrimaryKey(autoGenerate = true) val id: Int? = null,
 )
